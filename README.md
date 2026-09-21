@@ -1,9 +1,5 @@
-Error at line 100: PLS-00103: Encountered the symbol "end-of-file" when expecting one of the following:
-
-   begin end function pragma procedure
-
-
-
-1. CREATE OR REPLACE PACKAGE BODY ict_universal_doc_engine AS
-2. FUNCTION generate_document (
-3.     p_target_format    IN VARCHAR2,
+  :RETURN_VALUE := ict_universal_doc_engine.generate_document(
+      p_target_format => :p_target_format,
+      p_title         => :p_title,
+      p_payload_json  => :p_payload_json
+  );

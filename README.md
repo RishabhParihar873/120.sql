@@ -1,63 +1,100 @@
-TEXT
-c_source_type_apex constant varchar2(4 char) := 'APEX'; -- Template Type
-c_source_type_workspace constant varchar2(9 char) := 'WORKSPACE'; -- Template Type
-c_source_type_sql constant varchar2(3 char) := 'SQL'; -- Template and Data Type
-c_source_type_plsql_sql constant varchar2(9 char) := 'PLSQL_SQL'; -- Template and Data Type
-c_source_type_plsql constant varchar2(5 char) := 'PLSQL'; -- Template and Data Type
-c_source_type_url constant varchar2(3 char) := 'URL'; -- Template and Data Type
-c_source_type_url_aop constant varchar2(7 char) := 'URL_AOP'; -- Template Type
-c_source_type_rpt constant varchar2(6 char) := 'IR'; -- Data Type
-c_source_type_xml constant varchar2(3 char) := 'XML'; -- Data Type
-c_source_type_json constant varchar2(4 char) := 'JSON'; -- Template and Data Type
-c_source_type_json_files constant varchar2(10 char) := 'JSON_FILES'; -- Data Type
-c_source_type_refcursor constant varchar2(9 char) := 'REFCURSOR'; -- Data Type
-c_source_type_sql_array constant varchar2(9 char) := 'SQL_ARRAY'; -- Data Type
-c_source_type_filename constant varchar2(8 char) := 'FILENAME'; -- Template Type
-c_source_type_db_directory constant varchar2(12 char) := 'DB_DIRECTORY'; -- Template Type
-c_source_type_aop_report constant varchar2(10 char) := 'AOP_REPORT'; -- Template Type
-c_source_type_apex_report constant varchar2(11 char) := 'APEX_REPORT'; -- Template Type
-c_source_type_apex_report_do constant varchar2(14 char):= 'APEX_REPORT_DO'; -- Template Type
-c_source_type_layouts constant varchar2(14 char) := 'REPORT_LAYOUTS'; -- Template Type
-c_source_type_aop_template constant varchar2(1 char) := null; -- Template Type
-c_source_type_clob_base64 constant varchar2(11 char) := 'CLOB_BASE64'; -- Template Type
-c_source_type_oci_objs constant varchar2(8 char) := 'OCI_OBJS'; -- Template Type
-c_source_type_none constant varchar2(4 char) := 'NONE'; -- Template and Data Type
-c_source_type_converter constant varchar2(9 char) := 'CONVERTER';
-* Following constants exists in aop_api_pkg: c_source_type_sql, c_source_type_plsql_sql, c_source_type_plsql, c_source_type_url, c_source_type_rpt, c_source_type_refcursor, c_source_type_sql_array, c_source_type_xml, c_source_type_json, c_source_type_json_files, c_source_type_none
-* - c_source_type_sql: SQL statement with cursor syntax or returning JSON
-* - c_source_type_plsql_sql: PL/SQL function returning SQL statement with mime type and blob
-* - c_source_type_plsql: PL/SQL function returning JSON with the template file base64 encoded
-* - c_source_type_url: URL which contains the file
-* - c_source_type_rpt: static id(s) or region id(s) of the APEX regions
-* - c_source_type_refcursor: REF Cursor
-* - c_source_type_sql_array: Array of SQL statements
-* - c_source_type_xml: XML
-* - c_source_type_json: JSON data part
-* - c_source_type_json_files: JSON including files
-* - c_source_type_none: leave the source blank
-* Following constants exists in aop_api_pkg: c_source_type_apex, c_source_type_workspace, c_source_type_sql, c_source_type_plsql_sql, c_source_type_plsql,
-* c_source_type_url, c_source_type_filename, c_source_type_url_aop, c_source_type_json, c_source_type_db_directory, c_source_type_oci_objs,
-* c_source_type_aop_report, c_source_type_apex_report, c_source_type_aop_template, c_source_type_clob_base64, c_source_type_none
-* - c_source_type_apex: file uploaded in APEX Static Application Files
-* - c_source_type_workspace: file uploaded in APEX Workspace Files
-* - c_source_type_sql: SQL statement returning mime type and blob
-* - c_source_type_plsql_sql: PL/SQL function returning SQL statement with mime type and blob
-* - c_source_type_plsql: PL/SQL function returning JSON with the template file base64 encoded
-* - c_source_type_url: URL which contains the file (will be read from DB server)
-* - c_source_type_url_aop: URL which contains the file (will be read from AOP server)
-* - c_source_type_filename: file specified in a directory on the AOP Server
-* - c_source_type_db_directory: file specified in a directory on the Database Server, use DIRECTORY:filename
-* - c_source_type_json: JSON with the template file base64 encoded
-* - c_source_type_clob_base64: BLOB in CLOB base64 encoded (user apex_web_service.blob2clobbase64)
-* - c_source_type_aop_template: AOP will generate a starter template
-* - c_source_type_aop_report: AOP will use it's own template, used to generate one or more APEX regions
-* - c_source_type_apex_report: APEX will generate one region (native functionality)
-* - c_source_type_oci_objs: Oracle Cloud Infrastructure - Object Storage
-* - c_source_type_none: leave the source blank
-* @Param: p_ref_cursor: when data type is c_source_type_refcursor, we will read the ref cursor specified here
-* @Param: p_sql_array: when data type is c_source_type_sql_arrea, different SQL statements can be passed by using t_query_list
-* p_data_type => aop_api_pkg.c_source_type_json,
-* p_template_type => aop_api_pkg.c_source_type_aop_template,
-* p_data_type => aop_api_pkg.c_source_type_rpt,
-p_data_type in varchar2 default c_source_type_sql,
-p_template_type in varchar2 default c_source_type_apex,
+This confirms everything. Here's the exact fix — replace two things in the package body:
+
+1. `p_template_type => 'file'` → `p_template_type => aop_api_pkg.c_source_type_apex` (value `'APEX'`, meaning "file uploaded in APEX Static Application Files" — which is exactly where your templates are)
+2. `p_data_type => 'json'` → `p_data_type => aop_api_pkg.c_source_type_json` (value `'JSON'`) — using the real constant instead of a hardcoded lowercase string avoids any case-sensitivity surprise
+3. Drop the `'APP_FILES:'` prefix from the template filenames — `c_source_type_apex` expects just the plain filename as it appears in Static Application Files, not a prefixed string
+
+**Corrected package body:**
+
+```sql
+CREATE OR REPLACE PACKAGE BODY ict_universal_doc_engine AS
+
+FUNCTION generate_document (
+    p_target_format IN VARCHAR2,
+    p_title         IN VARCHAR2,
+    p_payload_json  IN CLOB
+) RETURN CLOB
+IS
+    l_template_file  VARCHAR2(100);
+    l_output_type    VARCHAR2(10);
+    l_mime_type      VARCHAR2(100);
+    l_file_ext       VARCHAR2(10);
+    l_return_blob    BLOB;
+    l_new_doc_id     NUMBER;
+    l_file_name      VARCHAR2(255);
+    l_download_url   VARCHAR2(1000);
+BEGIN
+    CASE UPPER(p_target_format)
+        WHEN 'PDF' THEN
+            l_template_file := 'ict_qa_template.docx';
+            l_output_type   := 'pdf';
+            l_file_ext      := '.pdf';
+            l_mime_type     := 'application/pdf';
+        WHEN 'DOCX' THEN
+            l_template_file := 'ict_qa_template.docx';
+            l_output_type   := 'docx';
+            l_file_ext      := '.docx';
+            l_mime_type     := 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        WHEN 'XLSX' THEN
+            l_template_file := 'ict_data_template.xlsx';
+            l_output_type   := 'xlsx';
+            l_file_ext      := '.xlsx';
+            l_mime_type     := 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        WHEN 'PPTX' THEN
+            l_template_file := 'ict_presentation_template.pptx';
+            l_output_type   := 'pptx';
+            l_file_ext      := '.pptx';
+            l_mime_type     := 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+        ELSE
+            RAISE_APPLICATION_ERROR(-20001, 'Unsupported document format requested.');
+    END CASE;
+
+    l_file_name := REGEXP_REPLACE(p_title, '[^a-zA-Z0-9_]', '_') || '_' || TO_CHAR(SYSDATE, 'YYYYMMDD_HH24MI') || l_file_ext;
+
+    l_return_blob := aop_api_pkg.plsql_call_to_aop(
+        p_data_type       => aop_api_pkg.c_source_type_json,
+        p_data_source     => p_payload_json,
+        p_template_type   => aop_api_pkg.c_source_type_apex,
+        p_template_source => l_template_file,
+        p_output_type     => l_output_type,
+        p_output_filename => l_file_name
+    );
+
+    INSERT INTO cgct_ai_document_library (
+        name, file_name, file_path1, mime_type, file_folder,
+        created_by, creation_date, package_id
+    ) VALUES (
+        p_title, l_file_name, l_return_blob, l_mime_type, 'N',
+        v('APP_USER'), SYSDATE, v('APP_ID')
+    ) RETURNING id INTO l_new_doc_id;
+
+    l_download_url := 'f?p=' || v('APP_ID') || ':920:' || v('APP_SESSION') || ':::P920_ID:' || l_new_doc_id;
+
+    RETURN json_object(
+        'status' VALUE 'SUCCESS',
+        'format' VALUE p_target_format,
+        'file_name' VALUE l_file_name,
+        'document_id' VALUE l_new_doc_id,
+        'download_link' VALUE l_download_url
+    );
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN json_object(
+            'status' VALUE 'ERROR',
+            'message' VALUE SQLERRM
+        );
+END generate_document;
+
+END ict_universal_doc_engine;
+/
+```
+
+**Important — I also removed `p_output_to => 'directory'`.** That was the risk I flagged earlier: it tells AOP to save the file to a server directory instead of handing the BLOB back to your PL/SQL. Since your code needs `l_return_blob` to actually contain the file (to insert into `file_path1` and serve it later), leaving that parameter out lets AOP default to returning the BLOB directly — which is what you need.
+
+**Steps:**
+1. Go to SQL Workshop → SQL Commands (or a SQL Script), paste the full corrected package body above, run it.
+2. Confirm it compiles: `select status from user_objects where object_name = 'ICT_UNIVERSAL_DOC_ENGINE';` → should say `VALID`.
+3. Go back to chat, try "generate me a PDF on car engines" again.
+
+Paste whatever happens next — we're very close now.

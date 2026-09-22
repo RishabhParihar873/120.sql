@@ -1,1 +1,4 @@
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/a9fe3837-6751-4578-8d1b-08da11f6e2f4" />
+select item_name 
+from apex_application_page_items 
+where application_id = 120 
+and page_id = 920;

@@ -1,42 +1,24 @@
+Confirmed — `P_APP_ID` exists as an optional parameter, and it's very likely not being passed correctly right now since AI Agent tool calls run outside a normal page session context (where `v('APP_ID')` usually resolves automatically). Let's pass it explicitly.
 
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/34af1413-2008-416b-9363-a2ca55bb95ad" />
+**Update the package body's AOP call to this:**
 
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/d372abd6-e525-4ef4-be8c-f3d8db08da7d" />
+```sql
+l_return_blob := aop_api_pkg.plsql_call_to_aop(
+    p_data_type       => aop_api_pkg.c_source_type_json,
+    p_data_source     => p_payload_json,
+    p_template_type   => aop_api_pkg.c_source_type_apex,
+    p_template_source => l_template_file,
+    p_output_type     => l_output_type,
+    p_output_filename => l_file_name,
+    p_app_id          => v('APP_ID')
+);
+```
 
-P_DATA_TYPE	VARCHAR2	IN	Y
-P_DATA_SOURCE	CLOB	IN	Y
-P_TEMPLATE_TYPE	VARCHAR2	IN	Y
-P_TEMPLATE_SOURCE	CLOB	IN	Y
-P_OUTPUT_TYPE	VARCHAR2	IN	Y
-P_OUTPUT_FILENAME	VARCHAR2	IN/OUT	N
-P_OUTPUT_TYPE_ITEM_NAME	VARCHAR2	IN	Y
-P_OUTPUT_TO	VARCHAR2	IN	Y
-P_PROCEDURE	VARCHAR2	IN	Y
-P_BINDS	PL/SQL TABLE	IN	Y
-P_SPECIAL	VARCHAR2	IN	Y
-P_AOP_REMOTE_DEBUG	VARCHAR2	IN	Y
-P_OUTPUT_CONVERTER	VARCHAR2	IN	Y
-P_AOP_URL	VARCHAR2	IN	Y
-P_API_KEY	VARCHAR2	IN	Y
-P_AOP_MODE	VARCHAR2	IN	Y
-P_APP_ID	NUMBER	IN	Y
-P_PAGE_ID	NUMBER	IN	Y
-P_USER_NAME	VARCHAR2	IN	Y
-P_INIT_CODE	CLOB	IN	Y
-P_OUTPUT_ENCODING	VARCHAR2	IN	Y
-P_OUTPUT_SPLIT	VARCHAR2	IN	Y
-P_OUTPUT_MERGE	VARCHAR2	IN	Y
-P_OUTPUT_EVEN_PAGE	VARCHAR2	IN	Y
-P_OUTPUT_MERGE_MAKING_EVEN	VARCHAR2	IN	Y
-P_FAILOVER_AOP_URL	VARCHAR2	IN	Y
-P_FAILOVER_PROCEDURE	VARCHAR2	IN	Y
-P_LOG_PROCEDURE	VARCHAR2	IN	Y
-P_PREPEND_FILES_SQL	CLOB	IN	Y
-P_APPEND_FILES_SQL	CLOB	IN	Y
-P_COMPARE_FILES_SQL	CLOB	IN	Y
-P_MEDIA_FILES_SQL	CLOB	IN	Y
-P_SUB_TEMPLATES_SQL	CLOB	IN	Y
-P_ATTACHMENTS_SQL	CLOB	IN	Y
-P_REF_CURSOR	REF CURSOR	IN	Y
-P_SQL_ARRAY	PL/SQL TABLE	IN	Y
-P_IG_SELECTED_PKS
+That's the only change — just adding `p_app_id => v('APP_ID')` as an explicit parameter.
+
+**Do this:**
+1. Recompile the package body with just that one addition (I can give you the full body again if you want to paste-replace the whole thing — just say so).
+2. Confirm valid: `select status from user_objects where object_name = 'ICT_UNIVERSAL_DOC_ENGINE';`
+3. Test in chat again: "generate me a PDF on car engines"
+
+If `v('APP_ID')` itself returns NULL in the tool's execution context (which is possible — AI tool calls might not carry full page session state), we'll need to hardcode `120` instead as a fallback test, just to isolate whether that's the actual problem. But let's try the clean version first and see what error (if any) comes back.

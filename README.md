@@ -1,85 +1,28 @@
-PACKAGE BODY ict_universal_doc_engine AS
-FUNCTION generate_document (
-p_target_format IN VARCHAR2,
-p_title IN VARCHAR2,
-p_payload_json IN CLOB
-) RETURN CLOB
-IS
-l_template_file VARCHAR2(100);
-l_output_type VARCHAR2(10);
-l_mime_type VARCHAR2(100);
-l_file_ext VARCHAR2(10);
-l_return_blob BLOB;
-l_new_doc_id NUMBER;
-l_file_name VARCHAR2(255);
-l_download_url VARCHAR2(1000);
-BEGIN
-CASE UPPER(p_target_format)
-WHEN 'PDF' THEN
-l_template_file := 'APP_FILES:ict_qa_template.docx';
-l_output_type := 'pdf';
-l_file_ext := '.pdf';
-l_mime_type := 'application/pdf';
-WHEN 'DOCX' THEN
-l_template_file := 'APP_FILES:ict_qa_template.docx';
-l_output_type := 'docx';
-l_file_ext := '.docx';
-l_mime_type := 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-WHEN 'XLSX' THEN
-l_template_file := 'APP_FILES:ict_data_template.xlsx';
-l_output_type := 'xlsx';
-l_file_ext := '.xlsx';
-l_mime_type := 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-WHEN 'PPTX' THEN
-l_template_file := 'APP_FILES:ict_presentation_template.pptx';
-l_output_type := 'pptx';
-l_file_ext := '.pptx';
-l_mime_type := 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
-ELSE
-RAISE_APPLICATION_ERROR(-20001, 'Unsupported document format requested.');
-END CASE;
-l_file_name := REGEXP_REPLACE(p_title, '[^a-zA-Z0-9_]', '_') || '_' || TO_CHAR(SYSDATE, 'YYYYMMDD_HH24MI') || l_file_ext;
-l_return_blob := aop_api_pkg.plsql_call_to_aop(
-p_data_type => 'json',
-p_data_source => p_payload_json,
-p_template_type => 'file',
-p_template_source => l_template_file,
-p_output_type => l_output_type,
-p_output_filename => l_file_name,
-p_output_to => 'directory'
-);
-INSERT INTO cgct_ai_document_library (
-name,
-file_name,
-file_path1,
-mime_type,
-file_folder,
-created_by,
-creation_date,
-package_id
-) VALUES (
-p_title,
-l_file_name,
-l_return_blob,
-l_mime_type,
-'N',
-v('APP_USER'),
-SYSDATE,
-v('APP_ID')
-) RETURNING id INTO l_new_doc_id;
-l_download_url := 'f?p=' || v('APP_ID') || ':920:' || v('APP_SESSION') || ':::P920_ID:' || l_new_doc_id;
-RETURN json_object(
-'status' VALUE 'SUCCESS',
-'format' VALUE p_target_format,
-'file_name' VALUE l_file_name,
-'document_id' VALUE l_new_doc_id,
-'download_link' VALUE l_download_url
-);
-EXCEPTION
-WHEN OTHERS THEN
-RETURN json_object(
-'status' VALUE 'ERROR',
-'message' VALUE SQLERRM
-);
-END generate_document;
-END ict_universal_doc_engine;
+Found the likely break point. Two things stand out:
+
+**Suspect #1 — `p_output_to => 'directory'` combined with capturing a BLOB.**
+When you tell AOP (Apex Office Print) to write output `'directory'`, it typically means "save the file to a database DIRECTORY object on the server" — not "hand me the file bytes back." In that mode, `aop_api_pkg.plsql_call_to_aop` usually returns `NULL` (or nothing meaningful) for the BLOB, because the actual file content never comes back to PL/SQL — it's sitting on disk. So `l_return_blob` is likely **empty**.
+
+**Suspect #2 — inserting `l_return_blob` (a BLOB) into `file_path1`.**
+The column name `file_path1` strongly suggests it's meant to hold a **text path/filename** (varchar2), not raw file bytes. If that column is actually varchar2 and you're inserting a BLOB variable into it, PL/SQL won't implicitly convert that — this would be a **compile-time type mismatch**, which would make the whole package body invalid.
+
+Since your `WHEN OTHERS` catches *runtime* errors and returns a clean JSON — but a *compile* error wouldn't even let the function run at all — I need to know which one it is.
+
+Run these two and paste results:
+
+**Query 1 — is the package actually valid?**
+```sql
+select object_name, status 
+from user_objects 
+where object_name = 'ICT_UNIVERSAL_DOC_ENGINE';
+```
+
+**Query 2 — what type is `file_path1` really?**
+```sql
+select column_name, data_type 
+from user_tab_columns 
+where table_name = 'CGCT_AI_DOCUMENT_LIBRARY' 
+order by column_id;
+```
+
+Once I see these, I'll know exactly whether it's the type mismatch, the `'directory'` vs `'blob'` output mode, or something else — and give you the exact corrected package body.

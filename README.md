@@ -1,20 +1,4 @@
-That likely means `AOP_API_PKG` isn't the real package name in your schema — it's probably a synonym pointing to something else (the docs I found earlier referenced a package called `AOP_API24_PKG` for some AOP versions). Let's find the real object first.
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/fb774246-f8b1-4f99-9b5b-100dde7fcf60" />
 
-Run this:
-```sql
-select object_name, object_type, status
-from user_objects
-where object_name like '%AOP%'
-order by object_name;
-```
 
-If nothing comes back, also try:
-```sql
-select owner, object_name, object_type
-from all_objects
-where object_name like '%AOP%'
-and object_type in ('PACKAGE','SYNONYM')
-order by owner, object_name;
-```
-
-This will tell us the exact package name (and its owning schema, if it's not yours) so we can pull its real constant list.
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/4ca65fb2-e623-4d83-ae91-d9eace404555" />

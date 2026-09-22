@@ -1,22 +1,42 @@
-The filename matches exactly (`ict_qa_template.docx`) — so it's not a naming/casing issue. This narrows it down to **execution context**: `aop_api_pkg.plsql_call_to_aop` likely needs to be told explicitly *which application's* Static Files to look in via a `p_app_id` parameter — and our current call doesn't pass one.
 
-Here's why this matters specifically for your setup: an AI Agent tool call happens in a slightly different session context than a normal page request. If `plsql_call_to_aop` relies on an implicit `v('APP_ID')` internally instead of an explicit parameter, it may not resolve correctly when triggered from the chat/tool-call context — so it searches the wrong (or no) application and reports "not found," even though the file is sitting right there in app 120.
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/34af1413-2008-416b-9363-a2ca55bb95ad" />
 
-Let's confirm the function actually has this parameter available. Run:
-```sql
-select argument_name, data_type, in_out, defaulted
-from user_arguments
-where object_name = 'AOP_API24_PKG'
-and package_name is null  -- adjust if needed
-order by position;
-```
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/d372abd6-e525-4ef4-be8c-f3d8db08da7d" />
 
-If that returns nothing (function might be nested under package), try instead:
-```sql
-select argument_name, data_type, in_out, defaulted
-from user_arguments
-where object_name = 'PLSQL_CALL_TO_AOP'
-order by position;
-```
-
-Paste the result — I want to see if `p_app_id` (and possibly `p_page_id`) exist as parameters so I can add them explicitly to the call with `v('APP_ID')`.
+P_DATA_TYPE	VARCHAR2	IN	Y
+P_DATA_SOURCE	CLOB	IN	Y
+P_TEMPLATE_TYPE	VARCHAR2	IN	Y
+P_TEMPLATE_SOURCE	CLOB	IN	Y
+P_OUTPUT_TYPE	VARCHAR2	IN	Y
+P_OUTPUT_FILENAME	VARCHAR2	IN/OUT	N
+P_OUTPUT_TYPE_ITEM_NAME	VARCHAR2	IN	Y
+P_OUTPUT_TO	VARCHAR2	IN	Y
+P_PROCEDURE	VARCHAR2	IN	Y
+P_BINDS	PL/SQL TABLE	IN	Y
+P_SPECIAL	VARCHAR2	IN	Y
+P_AOP_REMOTE_DEBUG	VARCHAR2	IN	Y
+P_OUTPUT_CONVERTER	VARCHAR2	IN	Y
+P_AOP_URL	VARCHAR2	IN	Y
+P_API_KEY	VARCHAR2	IN	Y
+P_AOP_MODE	VARCHAR2	IN	Y
+P_APP_ID	NUMBER	IN	Y
+P_PAGE_ID	NUMBER	IN	Y
+P_USER_NAME	VARCHAR2	IN	Y
+P_INIT_CODE	CLOB	IN	Y
+P_OUTPUT_ENCODING	VARCHAR2	IN	Y
+P_OUTPUT_SPLIT	VARCHAR2	IN	Y
+P_OUTPUT_MERGE	VARCHAR2	IN	Y
+P_OUTPUT_EVEN_PAGE	VARCHAR2	IN	Y
+P_OUTPUT_MERGE_MAKING_EVEN	VARCHAR2	IN	Y
+P_FAILOVER_AOP_URL	VARCHAR2	IN	Y
+P_FAILOVER_PROCEDURE	VARCHAR2	IN	Y
+P_LOG_PROCEDURE	VARCHAR2	IN	Y
+P_PREPEND_FILES_SQL	CLOB	IN	Y
+P_APPEND_FILES_SQL	CLOB	IN	Y
+P_COMPARE_FILES_SQL	CLOB	IN	Y
+P_MEDIA_FILES_SQL	CLOB	IN	Y
+P_SUB_TEMPLATES_SQL	CLOB	IN	Y
+P_ATTACHMENTS_SQL	CLOB	IN	Y
+P_REF_CURSOR	REF CURSOR	IN	Y
+P_SQL_ARRAY	PL/SQL TABLE	IN	Y
+P_IG_SELECTED_PKS

@@ -1,4 +1,13 @@
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/fb774246-f8b1-4f99-9b5b-100dde7fcf60" />
+Found it — `AOP_API_PKG` is just a **synonym** pointing to the real package `AOP_API24_PKG`. That's why `user_source` returned nothing (synonyms aren't in `user_source`, only the real package is).
 
+Run this instead, using the real name:
+```sql
+select text 
+from user_source 
+where name = 'AOP_API24_PKG' 
+and type = 'PACKAGE' 
+and text like '%c_source_type%' 
+order by line;
+```
 
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/4ca65fb2-e623-4d83-ae91-d9eace404555" />
+This should list the actual constants (like `c_source_type_apex`, `c_source_type_json`, etc.) we need to plug into the package body fix.

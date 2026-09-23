@@ -1,50 +1,32 @@
-Use this as the first version of `get_current_page_info`.
+Since you're using **On Demand**, use these descriptions:
 
-### SQL Query
-
-```sql
-SELECT
-    p.page_id       AS "Page ID",
-    p.page_name     AS "Page Name",
-    p.page_title    AS "Page Title",
-    r.region_name   AS "Region Name",
-    r.source_type   AS "Region Type"
-FROM apex_application_pages p
-LEFT JOIN apex_application_page_regions r
-       ON r.application_id = p.application_id
-      AND r.page_id        = p.page_id
-WHERE p.application_id = :APP_ID
-  AND p.page_id        = :APP_PAGE_ID
-ORDER BY r.display_sequence
-```
-
-### Data Description
+### Tool / Identification Description
 
 ```text
-Returns information about the currently displayed APEX page.
+Retrieves basic information about a specific project.
 
-Use the returned information to explain the current page when the user asks questions such as:
-- What is this page?
-- What does this page do?
-- What is this page used for?
-- What sections are on this page?
+Use this tool when the user asks for details, information, overview, status, project code, business unit, market unit, industry, or other basic information about a specific project.
 
-The result contains the page ID, page name, page title, and the regions available on the current page.
+Identify the project name or project code from the user's request and pass it to the P_PROJECT_NAME parameter.
 
-Use the page name, title, and region names to explain the purpose and functionality of the page.
-
-Do not invent functionality that is not supported by the returned page information.
-
-If no page information is returned, state that information about the current page could not be found.
+Use the returned project data to answer the user's question.
+Do not invent project information.
+If no matching project is found, clearly state that no matching project was found.
 ```
 
-### Settings
+### `P_PROJECT_NAME` Description
 
-- **Tool:** `get_current_page_info`
-- **Type:** `Retrieve Data`
-- **Execution Point:** `Augment System Prompt`
-- **Server-side Condition:** **Blank**
-- **Type:** `SQL Query`
-- **Max Tokens:** `500`
+```text
+The project name or project code that the user is asking about.
 
-One thing before testing: **don't create the tool and test yet.** There is a potential issue with using `:APP_PAGE_ID` inside an AI Agent SQL query, so after you create it, we'll verify that the agent actually receives the current page context rather than assuming it does.
+Extract the project name or project code directly from the user's request and pass it to this parameter.
+
+Examples:
+- "Tell me about Project Phoenix" → P_PROJECT_NAME = Project Phoenix
+- "Give me details of ABC123" → P_PROJECT_NAME = ABC123
+- "What is the status of Project Alpha?" → P_PROJECT_NAME = Project Alpha
+
+Do not leave this parameter empty when the user has specified a project.
+```
+
+This explicitly tells the agent **what to identify** and **what value to put into `P_PROJECT_NAME`** before calling the On Demand tool.

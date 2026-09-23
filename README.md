@@ -1,13 +1,1 @@
-
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/a1da1bf0-c90d-4e9e-bb67-b24e7f8dcf75" />
-
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/ebfd97bf-27dd-4a55-8818-aae969a14a11" />
-
-
-
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/3cc78be6-86a7-4d3d-b5d2-5dfcdf574be9" />
-
-<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/423d71a4-140d-4678-a52a-11bc402a93e0" />
-
-
-
+#action$a-dialog-open?url=https%3A%2F%2Fybft8bl4darvpgg-oblatp23ai.adb.us-ashburn-1.oraclecloudapps.com%2Fords%2Fr%2Fdel_dev%2Fphoenix-delivery%2Fupload-file-in-ai-discovery-center%3Fp920_id%3D1%26session%3D702282373655980%26cs%3D1xYFvlpZ3-QMSY6xYZybM4m2u37bZCw5pUacjzqINbajEMphvtKzWhdE-zDmZxjIPpZmObn39X4-UqBFRvN4b_w%26dialogCs%3Dea64or-wZaQ9LvBky2VYKeBmr94YPq8ugGRLj74Io641OpWqPzukec5sZGeCEzlmQK996OrfIzmBKmWdBZ-QFQ&appId=120&pageId=920&tmpl=modal-dialog&title=Upload%20File&h=auto&w=720&mxw=960&isModal=true&dlgCls=&pageCls=&trgEl=%23R21503410687604939

@@ -1,1 +1,4 @@
-#action$a-dialog-open?url=https%3A%2F%2Fybft8bl4darvpgg-oblatp23ai.adb.us-ashburn-1.oraclecloudapps.com%2Fords%2Fr%2Fdel_dev%2Fphoenix-delivery%2Fupload-file-in-ai-discovery-center%3Fp920_id%3D1%26session%3D702282373655980%26cs%3D1xYFvlpZ3-QMSY6xYZybM4m2u37bZCw5pUacjzqINbajEMphvtKzWhdE-zDmZxjIPpZmObn39X4-UqBFRvN4b_w%26dialogCs%3Dea64or-wZaQ9LvBky2VYKeBmr94YPq8ugGRLj74Io641OpWqPzukec5sZGeCEzlmQK996OrfIzmBKmWdBZ-QFQ&appId=120&pageId=920&tmpl=modal-dialog&title=Upload%20File&h=auto&w=720&mxw=960&isModal=true&dlgCls=&pageCls=&trgEl=%23R21503410687604939
+select page_id, page_name, page_mode 
+from apex_application_pages 
+where application_id = 120 
+order by page_id;

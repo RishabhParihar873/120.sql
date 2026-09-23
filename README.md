@@ -1,32 +1,19 @@
-Since you're using **On Demand**, use these descriptions:
-
-### Tool / Identification Description
+Use this as the **Identification / Tool Description**:
 
 ```text
-Retrieves basic information about a specific project.
+Retrieves project information based on the user's request and the currently selected project context.
 
-Use this tool when the user asks for details, information, overview, status, project code, business unit, market unit, industry, or other basic information about a specific project.
+If the user explicitly mentions a project, identify that project and retrieve its information.
 
-Identify the project name or project code from the user's request and pass it to the P_PROJECT_NAME parameter.
+If the user does not mention a project but a project is currently selected in the application, retrieve information for the currently selected project.
 
-Use the returned project data to answer the user's question.
-Do not invent project information.
-If no matching project is found, clearly state that no matching project was found.
+If the user does not mention a project and no project is currently selected, retrieve information for all available projects and provide the user with the available project information.
+
+Always prioritize an explicitly mentioned project over the currently selected project.
+
+Do not invent project information. Use only the data returned by the tool.
 ```
 
-### `P_PROJECT_NAME` Description
+This gives the agent the priority order:
 
-```text
-The project name or project code that the user is asking about.
-
-Extract the project name or project code directly from the user's request and pass it to this parameter.
-
-Examples:
-- "Tell me about Project Phoenix" → P_PROJECT_NAME = Project Phoenix
-- "Give me details of ABC123" → P_PROJECT_NAME = ABC123
-- "What is the status of Project Alpha?" → P_PROJECT_NAME = Project Alpha
-
-Do not leave this parameter empty when the user has specified a project.
-```
-
-This explicitly tells the agent **what to identify** and **what value to put into `P_PROJECT_NAME`** before calling the On Demand tool.
+**Explicitly mentioned project → Currently selected project → All projects if nothing is selected.**

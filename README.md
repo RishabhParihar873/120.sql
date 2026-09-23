@@ -1,4 +1,12 @@
-select item_name 
-from apex_application_page_items 
-where application_id = 120 
-and page_id = 920;
+
+ITEM_NAME
+P920_ID
+P920_NAME
+P920_FILE_PATH
+P920_FILE_PATH1
+P920_FILE_FOLDER
+P920_PARENT_ID
+P920_PACKAGE_ID
+P920_FILE_NAME
+P920_FILE_UPLOAD
+P920_PARENT_ID_3

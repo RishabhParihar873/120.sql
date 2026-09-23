@@ -1,51 +1,17 @@
-Items
-Pages
-Queries
-Tables
-PL/SQL
-Debug
-Session
-Errors
-Errors
-Search
-Error Message
-User
-Page
-Date
-Error Message
-User
-Page
-Date
-Your session has ended.	SAMIRAN CHAKRABORTY	34	27 minutes ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412988".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	40 minutes ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412986".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	40 minutes ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412985".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	41 minutes ago
-ORA-20954: The HTTP request to Generative AI Service at https://api.cohere.ai/v2/chat failed with HTTP-422: No tool calls or response was generated. Try updating messages or tool definitions Contact your application administrator. Details about this incident are available via debug id "1412983".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	65 minutes ago
-ORA-20954: The HTTP request to Generative AI Service at https://api.cohere.ai/v2/chat failed with HTTP-422: No tool calls or response was generated. Try updating messages or tool definitions Contact your application administrator. Details about this incident are available via debug id "1412982".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	65 minutes ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412980".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	67 minutes ago
-APEX - ORA-20001: Execution ID is missing. - Contact your application administrator. Details about this incident are available via debug id "1412958". ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1594 ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1629	SAMIRAN CHAKRABORTY	1094	4 hours ago
-APEX - ORA-20001: Execution ID is missing. - Contact your application administrator. Details about this incident are available via debug id "1412957". ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1594 ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1629	SAMIRAN CHAKRABORTY	1094	5 hours ago
-APEX - ORA-20001: Execution ID is missing. - Contact your application administrator. Details about this incident are available via debug id "1412956". ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1594 ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1629	SAMIRAN CHAKRABORTY	1094	5 hours ago
-APEX - ORA-20001: Execution ID is missing. - Contact your application administrator. Details about this incident are available via debug id "1412107". ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1594 ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1629	SAMIRAN CHAKRABORTY	1094	15 hours ago
-APEX - ORA-20001: Execution ID is missing. - Contact your application administrator. Details about this incident are available via debug id "1412106". ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1594 ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1629	SAMIRAN CHAKRABORTY	1094	15 hours ago
-APEX - ORA-20001: Execution ID is missing. - Contact your application administrator. Details about this incident are available via debug id "1412105". ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1594 ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1629	SAMIRAN CHAKRABORTY	1094	15 hours ago
-APEX - ORA-20001: Execution ID is missing. - Contact your application administrator. Details about this incident are available via debug id "1412104". ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1594 ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1629	SAMIRAN CHAKRABORTY	1094	15 hours ago
-APEX - ORA-20002: Document download failed. HTTP Status: 404 - Contact your application administrator. Details about this incident are available via debug id "1412103". ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1594 ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1629	SAMIRAN CHAKRABORTY	1094	15 hours ago
-APEX - ORA-20002: Document download failed. HTTP Status: 404 - Contact your application administrator. Details about this incident are available via debug id "1412102". ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1594 ORA-06512: at "APEX_260100.WWV_FLOW_ERROR", line 1629	SAMIRAN CHAKRABORTY	1016	15 hours ago
-Invalid Login Credentials (user=)	nobody	9999	18 hours ago
-Your session has ended. <a href="f?p=120:34">Sign In</a> again to create a new session.	nobody	9999	18 hours ago
-Your session has ended. <a href="f?p=120:34">Sign In</a> again to create a new session.	nobody	9999	18 hours ago
-Your session has ended.	SAMIRAN CHAKRABORTY	34	20 hours ago
-Invalid Login Credentials (user=)	nobody	9999	20 hours ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412072".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	21 hours ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412068".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	21 hours ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412067".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	21 hours ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412065".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	21 hours ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412063".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	21 hours ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412060".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	21 hours ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412057".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	21 hours ago
-Invalid URL Contact your application administrator. Details about this incident are available via debug id "1412056".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	21 hours ago
-ORA-20954: The HTTP request to Generative AI Service at https://api.cohere.ai/v2/chat failed with HTTP-422: your request resulted in an invalid tool generation. Try updating the messages or tool definitions Contact your application administrator. Details about this incident are available via debug id "1412048".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	22 hours ago
-ORA-20954: The HTTP request to Generative AI Service at https://api.cohere.ai/v2/chat failed with HTTP-422: your request resulted in an invalid tool generation. Try updating the messages or tool definitions Contact your application administrator. Details about this incident are available via debug id "1412045".	RISHABHSINGH RUPESHSINGH PARIHAR	1089	22 hours ago
-Invalid Login Credentials (user=)	nobody	9999	23 hours ago
-1 - 32
+This is genuinely useful — but notice something important: **there's no new error entry for the test you just ran with the API key.** The most recent one is still 40 minutes old ("Invalid URL", debug id 1412988) — before you added the key. That means **this new failure isn't triggering an APEX-level error at all.**
+
+Here's why that matters: our package's `WHEN OTHERS` handler catches any database error and returns a normal-looking JSON response (`status: ERROR, message: ...`) instead of letting it crash — which is exactly what it's designed to do. So right now, the real error message (from `SQLERRM`) is sitting inside that JSON, but the AI is just reading it and paraphrasing it to you as a generic "sorry, try again later" instead of showing you the actual text.
+
+Let's skip the chat/network layer entirely and check the database directly — this tells us hard facts regardless of what the AI says.
+
+**Step 1.** Run this:
+```sql
+select id, name, file_name, dbms_lob.getlength(file_path1) as file_size_bytes, creation_date
+from cgct_ai_document_library
+order by creation_date desc
+fetch first 5 rows only;
+```
+
+This tells us: did a row even get created for your latest attempt? And if so, is the file empty (0 bytes = AOP silently failed) or does it have real content (meaning it might have actually worked, and the "Invalid URL" is happening only at the very last step)?
+
+**Step 2.** Paste the result.
